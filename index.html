@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarifação Inteligente · Motor de Pricing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <div class="dots" id="dots"></div>
+
+  <main class="carousel" id="carousel">
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="eyebrow">1 - O sistema</span>
+        <h1>Motor de Pricing com Tarifação Inteligente</h1>
+        <p class="lead">
+          O valor de cada kWh recarregado não é fixo. Ele varia conforme a
+          ocupação do eletroposto no momento da recarga, permitindo que a
+          operação comercial seja rentável e sustentável.
+        </p>
+
+        <div class="flow">
+          <div class="flow-step">
+            <span class="flow-index">1 -</span>
+            <div>
+              <strong>Leitura do consumo</strong>
+              <p>O sistema registra o tempo de conexão e o kWh consumido durante a sessão de carga.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-index">2 -</span>
+            <div>
+              <strong>Verificação da regra de preço</strong>
+              <p>O movimento do eletroposto e a ocupação do estacionamento no instante da recarga são cruzados com as regras de negócio vigentes.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-index">3 -</span>
+            <div>
+              <strong>Cálculo do total</strong>
+              <p>O valor final é calculado somando cada faixa de tarifa aplicada durante a sessão.</p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-index">4 -</span>
+            <div>
+              <strong>Cobrança automática</strong>
+              <p>O valor apurado é enviado à API de pagamento para débito no cartão cadastrado.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="eyebrow">2 - A regra de preço</span>
+        <h1>Como a tarifa é definida</h1>
+        <p class="lead">
+          A tarifa do kWh acompanha a demanda do eletroposto. Em horários de
+          alta procura por carregadores, o preço sobe; em horários ociosos,
+          o preço cai. Essa variação incentiva o uso da infraestrutura nos
+          períodos de menor demanda e remunera de forma justa os períodos de
+          pico.
+        </p>
+
+        <div class="tariff-table">
+          <div class="tariff-row tariff-head">
+            <span class = "text-align">Movimento do eletroposto</span>
+            <span class = "text-align">Período típico</span>
+            <span id = "text-align-right">Tarifa de referência</span>
+          </div>
+          <div class="tariff-row">
+            <span>
+              <div class="separate">
+                <span class="tag tag-low text-align">Horário livre</span>
+                <span class = "text-align">Baixa procura por carregadores</span>
+              </div>
+            </span>
+            <span class="text-align">Madrugada e início da manhã</span>
+            <span class="price text-align">R$ 0,79 - R$ 0,99</span>
+          </div>
+          <div class="tariff-row">
+            <span>
+              <div class="separate">
+                <span class="tag tag-mid text-align">Movimento mediano</span>
+                <span class = "text-align">Procura moderada por carregadores</span>
+              </div>
+            </span>
+            <span class="text-align">Meio da manhã e início da noite</span>
+            <span class="price text-align">R$ 0,99 - R$ 1,39</span>
+          </div>
+          <div class="tariff-row">
+            <span>
+              <div class="separate">
+                <span class="tag tag-high text-align">Horário de pico</span>
+                <span class = "text-align">procura por carregadores</span>
+              </div>
+              </span>
+            <span class="text-align">Horário comercial e fim de tarde</span>
+            <span class="price text-align">R$ 1,39 - R$ 1,69</span>
+          </div>
+        </div>
+
+        <p class="note">
+          Dentro de cada faixa, a ocupação do estacionamento também influencia
+          o valor final: quanto mais cheio o estacionamento, mais próxima a
+          tarifa fica do limite superior da faixa.
+        </p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="eyebrow">3 - O cálculo</span>
+        <h1>Como o valor final é montado</h1>
+        <p class="lead">
+          Ao final da sessão, o sistema calcula o consumo total a partir da
+          duração da recarga, identifica a tarifa vigente com base no
+          movimento do eletroposto e na ocupação do estacionamento, e aplica
+          essa tarifa ao consumo apurado.
+        </p>
+
+        <div class="formula-card">
+          <div class="formula-line">
+            <span class="formula-label">Duração da recarga</span>
+            <span class="formula-op">x</span>
+            <span class="formula-label">Consumo médio por hora</span>
+            <span class="formula-op">=</span>
+            <span class="formula-label formula-result">Consumo total (kWh)</span>
+          </div>
+          <div class="formula-divider"></div>
+          <div class="formula-line">
+            <span class="formula-label">Consumo total (kWh)</span>
+            <span class="formula-op">x</span>
+            <span class="formula-label">Tarifa vigente</span>
+            <span class="formula-op">=</span>
+            <span class="formula-label formula-result">Valor total da recarga</span>
+          </div>
+        </div>
+
+        <p class="note">
+          A tarifa vigente é definida pela combinação entre o movimento do
+          eletroposto e a ocupação do estacionamento no momento da recarga.
+          Esse detalhamento é o que o usuário vê na tela de pagamento.
+        </p>
+
+        <button class="cta" id="goPayment">Simular minha recarga</button>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="slide-inner">
+        <span class="eyebrow">4 - Simulação</span>
+        <h1>Informe os dados da sua recarga</h1>
+        <p class="lead">
+          Preencha as informações abaixo para simular como o sistema
+          calcularia o valor da sua sessão de recarga.
+        </p>
+
+        <form class="sim-form" id="simForm">
+          <div class="form-row">
+            <div class="field">
+              <label for="startTime">Horário de início</label>
+              <input type="time" id="startTime" name="startTime" value="00:00" required>
+            </div>
+            <div class="field">
+              <label for="endTime">Horário de término</label>
+              <input type="time" id="endTime" name="endTime" value="00:00" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Movimento do eletroposto durante a sessão</label>
+            <div class="option-group" data-name="traffic">
+              <button type="button" class="option" data-value="livre">
+                <span class="option-title">Horário livre</span>
+                <span class="option-desc">Pouca procura por carregadores</span>
+              </button>
+              <button type="button" class="option" data-value="mediano">
+                <span class="option-title">Movimento mediano</span>
+                <span class="option-desc">Procura moderada por carregadores</span>
+              </button>
+              <button type="button" class="option" data-value="pico">
+                <span class="option-title">Horário de pico</span>
+                <span class="option-desc">Alta procura por carregadores</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Ocupação do estacionamento</label>
+            <div class="option-group" data-name="parking">
+              <button type="button" class="option" data-value="livre">
+                <span class="option-title">Livre</span>
+                <span class="option-desc">Vagas disponíveis</span>
+              </button>
+              <button type="button" class="option" data-value="medio">
+                <span class="option-title">Médio</span>
+                <span class="option-desc">Poucas vagas disponíveis</span>
+              </button>
+              <button type="button" class="option" data-value="cheio">
+                <span class="option-title">Cheio</span>
+                <span class="option-desc">Sem vagas disponíveis</span>
+              </button>
+            </div>
+          </div>
+
+          <p class="form-error" id="formError"></p>
+
+          <button type="submit" class="cta">Calcular e ver resumo</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="slide slide-payment">
+      <div class="slide-inner payment-inner">
+        <span class="eyebrow">5 - Resultado</span>
+        <h1>Resumo da recarga</h1>
+
+        <div class="receipt">
+          <div class="receipt-head">
+            <div>
+              <span class="receipt-station">Eletroposto Av. Faria Lima · Vaga 04</span>
+              <span class="receipt-date" id="receiptDate">14/06/2026 · 17h32 às 18h21</span>
+            </div>
+            <span class="status-badge">Sessão concluída</span>
+          </div>
+
+          <div class="receipt-body" id="receiptBody"></div>
+
+          <div class="receipt-total" id="receiptTotal"></div>
+        </div>
+
+        <div class="payment-method">
+          <div class="card-visual">
+            <span class="card-chip"></span>
+            <span class="card-number">**** **** **** 1234</span>
+            <span class="card-name">CARTÃO CADASTRADO</span>
+          </div>
+          <button class="cta cta-pay" id="payButton">Confirmar pagamento</button>
+          <p class="micro-note" id="payNote">
+            O valor será debitado automaticamente ao final de cada sessão de recarga.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="nav">
+    <button class="nav-btn" id="prevBtn" aria-label="Slide anterior"><</button>
+    <span class="nav-label" id="navLabel">1 / 5</span>
+    <button class="nav-btn" id="nextBtn" aria-label="Próximo slide">></button>
+  </nav>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
